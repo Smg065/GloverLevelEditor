@@ -1,0 +1,93 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxhym4rncpirh"]
+
+[ext_resource type="Script" path="res://Scripts/UI/ButtonChoiceWindow.gd" id="1_fm13r"]
+[ext_resource type="Texture2D" uid="uid://5m156qxx3i4a" path="res://Sprites/Magnifying.png" id="1_yxcn2"]
+
+[node name="ButtonChoiceWindow" type="Control" node_paths=PackedStringArray("buttonEntries", "removeButton", "loadButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fm13r")
+buttonEntries = NodePath("ButtonScroll/ButtonEntries")
+removeButton = NodePath("Remove")
+loadButton = NodePath("Load")
+
+[node name="ButtonScroll" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="ButtonEntries" type="GridContainer" parent="ButtonScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="Searchbox" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 105.0
+offset_top = -53.0
+offset_right = -83.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+placeholder_text = "Search..."
+clear_button_enabled = true
+right_icon = ExtResource("1_yxcn2")
+
+[node name="Add" type="Button" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -53.0
+offset_right = 53.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "+"
+
+[node name="Remove" type="Button" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 53.0
+offset_top = -53.0
+offset_right = 105.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+disabled = true
+text = "-"
+
+[node name="Load" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -83.0
+offset_top = -53.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+disabled = true
+text = "Load"
+
+[connection signal="text_changed" from="Searchbox" to="." method="searchbox_updated"]
+[connection signal="pressed" from="Add" to="." method="add_pressed"]
+[connection signal="pressed" from="Remove" to="." method="remove_selected"]
+[connection signal="pressed" from="Load" to="." method="load_pressed"]

@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://bw3yla7fanmp"]
+
+[ext_resource type="Script" path="res://Scripts/Level.gd" id="1_sbqbe"]
+[ext_resource type="Texture2D" uid="uid://hmd5video3wy" path="res://icon.svg" id="2_eh6dy"]
+
+[sub_resource type="Environment" id="Environment_v4t0x"]
+background_mode = 3
+background_canvas_max_layer = -1
+ambient_light_source = 2
+reflected_light_source = 1
+fog_mode = 1
+fog_density = 1.0
+fog_depth_begin = 0.0
+fog_depth_end = 0.0
+
+[node name="LevelRoot" type="WorldEnvironment" node_paths=PackedStringArray("backdropTexture", "backdropClearColor", "diffuseLightsContainer")]
+environment = SubResource("Environment_v4t0x")
+script = ExtResource("1_sbqbe")
+backdropTexture = NodePath("BackdropCanvas/Backdrop")
+backdropClearColor = NodePath("BackdropCanvas/FogClear")
+diffuseLightsContainer = NodePath("DynamicLights")
+
+[node name="BackdropCanvas" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="FogClear" type="ColorRect" parent="BackdropCanvas"]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.431373, 0.431373, 0.588235, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Backdrop" type="TextureRect" parent="BackdropCanvas"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 128.0
+grow_horizontal = 2
+mouse_filter = 2
+texture = ExtResource("2_eh6dy")
+stretch_mode = 1
+
+[node name="DynamicLights" type="Node3D" parent="."]
