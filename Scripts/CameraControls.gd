@@ -2,9 +2,10 @@ extends Node3D
 class_name CameraControls
 
 @export var camera : Camera3D
+@export var speed : float
 
 func _process(delta: float) -> void:
-	var moveInput : Vector2 = Vector2(Input.get_axis("MoveLeft","MoveRight"), Input.get_axis("MoveForward","MoveBack")).normalized()
+	var moveInput : Vector2 = Vector2(Input.get_axis("MoveLeft","MoveRight"), Input.get_axis("MoveForward","MoveBack")).normalized() * speed
 	var cameraInput : Vector2 = Vector2(Input.get_axis("CameraRight","CameraLeft"), Input.get_axis("CameraDown","CameraUp")).normalized()
 	var moveDirection : Vector3 = Vector3(moveInput.x, 0, moveInput.y)
 	

@@ -21,6 +21,7 @@ func build(newModel : PackedScene, newFilename : String, newFilePath : String, n
 static func load_model(tryFilepath : String):
 	var document : GLTFDocument = GLTFDocument.new()
 	var stateLoad : GLTFState = GLTFState.new()
+	#document.register_gltf_document_extension()
 	var error = document.append_from_file(tryFilepath, stateLoad)
 	if error == OK:
 		var generatedScene : Node3D = document.generate_scene(stateLoad)

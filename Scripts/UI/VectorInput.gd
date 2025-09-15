@@ -4,6 +4,8 @@ class_name VectorInput
 enum VectorType {VECTOR_2, VECTOR_3, VECTOR_4}
 @export var vectorType : VectorType
 @export var vectNames : PackedStringArray = ["X", "Y", "Z", "W"]
+@export var minMax : Vector2
+@export var isInt : bool
 
 signal VectorChanged
 
@@ -23,6 +25,12 @@ func _ready() -> void:
 		newSpin.step = 0
 		newSpin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		newSpin.value_changed.connect(update_vector)
+		newSpin.min_value = minMax.x
+		newSpin.max_value = minMax.y
+		if isInt:
+			newSpin.step = 1
+		else:
+			newSpin.step = .01
 
 func set_vector(inVector):
 	match vectorType:

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://caqvmryobj62v"]
 
-[ext_resource type="Script" path="res://Scripts/UI/VectorInput.gd" id="1_8mdpf"]
-[ext_resource type="Script" path="res://Resources/UI/DiffuseLightUi.gd" id="1_hpusd"]
+[ext_resource type="Script" uid="uid://kxjdr8lj0db5" path="res://Scripts/UI/VectorInput.gd" id="1_8mdpf"]
+[ext_resource type="Script" uid="uid://buis7tdftabf8" path="res://Resources/UI/DiffuseLightUi.gd" id="1_hpusd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2n657"]
 font_size = 64
@@ -62,4 +62,5 @@ offset_left = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8mdpf")
+minMax = Vector2(-10, 10)
 metadata/_edit_use_anchors_ = true

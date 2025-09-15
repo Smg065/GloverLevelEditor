@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dxhym4rncpirh"]
 
-[ext_resource type="Script" path="res://Scripts/UI/ButtonChoiceWindow.gd" id="1_fm13r"]
+[ext_resource type="Script" uid="uid://c8dcu6ujstwvw" path="res://Scripts/UI/ButtonChoiceWindow.gd" id="1_fm13r"]
 [ext_resource type="Texture2D" uid="uid://5m156qxx3i4a" path="res://Sprites/Magnifying.png" id="1_yxcn2"]
 
 [node name="ButtonChoiceWindow" type="Control" node_paths=PackedStringArray("buttonEntries", "removeButton", "loadButton")]

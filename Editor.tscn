@@ -1,17 +1,35 @@
-[gd_scene load_steps=6 format=3 uid="uid://dugtly3kgxxfd"]
+[gd_scene load_steps=10 format=3 uid="uid://dugtly3kgxxfd"]
 
-[ext_resource type="Script" path="res://Scripts/LevelEditor.gd" id="1_h6myy"]
+[ext_resource type="Script" uid="uid://2vsyilrbpdsu" path="res://Scripts/LevelEditor.gd" id="1_h6myy"]
 [ext_resource type="PackedScene" uid="uid://bw3yla7fanmp" path="res://Resources/Level.tscn" id="2_84d1u"]
 [ext_resource type="PackedScene" uid="uid://caqvmryobj62v" path="res://Resources/UI/DiffuseLight.tscn" id="2_gchqt"]
-[ext_resource type="Script" path="res://Scripts/CameraControls.gd" id="3_2uaqy"]
+[ext_resource type="Script" uid="uid://harowv2ot3wd" path="res://Scripts/CameraControls.gd" id="3_2uaqy"]
+[ext_resource type="Texture2D" uid="uid://hxisekx1u1fs" path="res://Sprites/Null.png" id="3_jdaql"]
+[ext_resource type="Script" uid="uid://kxjdr8lj0db5" path="res://Scripts/UI/VectorInput.gd" id="4_cyq0g"]
 [ext_resource type="PackedScene" uid="uid://dxhym4rncpirh" path="res://Resources/UI/ButtonChoiceWindow.tscn" id="5_upakm"]
 
-[node name="Editor" type="Node" node_paths=PackedStringArray("diffuseLightList", "cameraControls", "modelLoadWindow", "level", "openModel", "openTexture", "confirmOverwrite")]
+[sub_resource type="LabelSettings" id="LabelSettings_jdaql"]
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_cyq0g"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Editor" type="Node" node_paths=PackedStringArray("diffuseLightList", "modelLoadWindow", "textureLoadWindow", "skyboxButton", "skyboxEnabledToggled", "skyboxFlipX", "skyboxFlipY", "skyboxScaleUI", "skyboxDecalPosUI", "skyboxMiscXYUI", "cameraDebugLabel", "cameraControls", "level", "openModel", "openTexture", "confirmOverwrite")]
 script = ExtResource("1_h6myy")
-diffuseLightList = NodePath("UI/RightPanel/ScrollContainer/RightPanelSettings/DiffuseLightPanel/ScrollContainer/DiffuseLightContainer")
+diffuseLightList = NodePath("UI/RightPanel/ScrollContainer/RightPanelSettings/DiffuseLightEntry/ScrollContainer/DiffuseLightContainer")
 diffuseLightUiPrefab = ExtResource("2_gchqt")
+modelLoadWindow = NodePath("Windows/ModelSelector/ModelChoiceWindow")
+textureLoadWindow = NodePath("Windows/TextureSelector/TextureChoiceWindow")
+skyboxButton = NodePath("UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/SkyboxButtonRatio/SkyboxButton")
+skyboxEnabledToggled = NodePath("UI/RightPanel/ScrollContainer/RightPanelSettings/SkyboxToggle/SkyboxLabel")
+skyboxFlipX = NodePath("UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/Flip/FlipXRatio/FlipXCheckbox")
+skyboxFlipY = NodePath("UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/Flip/FlipYRatio/FlipYCheckbox")
+skyboxScaleUI = NodePath("UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/SkyboxScaleContainer/SkyboxScaleInput")
+skyboxDecalPosUI = NodePath("UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/DecalPosContainer/DecalPosInput")
+skyboxMiscXYUI = NodePath("UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/MiscVectorInputContainer/SkyboxXYInput")
+cameraDebugLabel = NodePath("UI/CameraInfoLabel")
 cameraControls = NodePath("CameraControls")
-modelLoadWindow = NodePath("Windows/ModelSelector/ButtonChoiceWindow")
 level = NodePath("LevelRoot")
 openModel = NodePath("Windows/OpenModel")
 openTexture = NodePath("Windows/OpenTexture")
@@ -52,7 +70,194 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 10
+mouse_filter = 2
 alignment = 2
+
+[node name="SpawnPlatform" type="Button" parent="UI/RightPanel/ScrollContainer/RightPanelSettings"]
+layout_mode = 2
+text = "Spawn Platform"
+
+[node name="SpawnLandActor" type="Button" parent="UI/RightPanel/ScrollContainer/RightPanelSettings"]
+layout_mode = 2
+text = "Spawn Land Actor"
+
+[node name="SkyboxToggle" type="AspectRatioContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings"]
+layout_mode = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="SkyboxLabel" type="CheckBox" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/SkyboxToggle"]
+layout_mode = 2
+text = "Skybox Texture"
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FoldableContainer" type="FoldableContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer"]
+layout_mode = 2
+title = "Skybox Info"
+title_alignment = 1
+
+[node name="SkyboxContainer" type="VBoxContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer"]
+custom_minimum_size = Vector2(0, 256)
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="SkyboxButtonRatio" type="AspectRatioContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="SkyboxButton" type="Button" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/SkyboxButtonRatio"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Skybox Texture"
+icon = ExtResource("3_jdaql")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SkyboxScaleContainer" type="Control" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="SkyboxScaleLabel" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/SkyboxScaleContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.3125
+anchor_bottom = 1.0
+offset_right = -40.0
+grow_vertical = 2
+text = "Scale"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="SkyboxScaleInput" type="HBoxContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/SkyboxScaleContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3125
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_cyq0g")
+minMax = Vector2(0, 9999)
+isInt = true
+metadata/_custom_type_script = "uid://kxjdr8lj0db5"
+metadata/_edit_use_anchors_ = true
+
+[node name="DecalPosContainer" type="Control" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="DecalPosLabel" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/DecalPosContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.3125
+anchor_bottom = 1.0
+offset_right = -52.0
+grow_vertical = 2
+text = "Decal Pos"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="DecalPosInput" type="HBoxContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/DecalPosContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3125
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_cyq0g")
+minMax = Vector2(0, 9999)
+isInt = true
+metadata/_custom_type_script = "uid://kxjdr8lj0db5"
+metadata/_edit_use_anchors_ = true
+
+[node name="MiscVectorInputContainer" type="Control" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="MiscVectorInputLabel" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/MiscVectorInputContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -0.171875
+anchor_right = 0.3125
+anchor_bottom = 1.171875
+grow_vertical = 2
+text = "Scroll & Offset"
+label_settings = SubResource("LabelSettings_jdaql")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="SkyboxXYInput" type="HBoxContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/MiscVectorInputContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_cyq0g")
+vectNames = ["S", "O", "", ""]
+minMax = Vector2(0, 9999)
+metadata/_custom_type_script = "uid://kxjdr8lj0db5"
+
+[node name="Flip" type="Control" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="FlipXRatio" type="AspectRatioContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/Flip"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FlipXCheckbox" type="CheckBox" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/Flip/FlipXRatio"]
+layout_mode = 2
+text = "Flip X"
+metadata/_edit_use_anchors_ = true
+
+[node name="FlipYRatio" type="AspectRatioContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/Flip"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="FlipYCheckbox" type="CheckBox" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/Flip/FlipYRatio"]
+layout_mode = 2
+text = "Flip Y"
+metadata/_edit_use_anchors_ = true
+
+[node name="SkyboxEntry" type="ReferenceRect" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+border_color = Color(0.67315096, 0.0009824448, 0.77673155, 1)
+border_width = 16.0
 
 [node name="FogEntry" type="ReferenceRect" parent="UI/RightPanel/ScrollContainer/RightPanelSettings"]
 custom_minimum_size = Vector2(0, 96)
@@ -64,22 +269,23 @@ border_width = 16.0
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.253036
+anchor_top = 0.33333334
 anchor_right = 0.746964
-anchor_bottom = 0.322917
+anchor_bottom = 0.6770833
 grow_horizontal = 2
 text = "Fog Enabled"
 alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorPickerButton" type="ColorPickerButton" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry"]
+[node name="ClearColorSelector" type="ColorPickerButton" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.333
 anchor_right = 1.0
-anchor_bottom = 0.667
+anchor_bottom = 0.32291684
 grow_horizontal = 0
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="NearSpin" type="SpinBox" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry"]
 layout_mode = 1
@@ -106,20 +312,19 @@ grow_vertical = 0
 max_value = 9999.0
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry"]
+[node name="ClearColorLabel" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.322917
 anchor_right = 0.497976
-anchor_bottom = 0.666667
+anchor_bottom = 0.33333337
 grow_horizontal = 2
 grow_vertical = 2
-text = "Fog Color"
+text = "Clear Color"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Label2" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry"]
+[node name="NearLabel" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.677083
@@ -132,29 +337,28 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Label3" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry"]
+[node name="DistanceLabel" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.497976
-anchor_top = 0.677083
+anchor_top = 0.6770833
 anchor_right = 0.663968
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Dist
-"
+text = "Dist"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="DiffuseLightPanel" type="ReferenceRect" parent="UI/RightPanel/ScrollContainer/RightPanelSettings"]
+[node name="DiffuseLightEntry" type="ReferenceRect" parent="UI/RightPanel/ScrollContainer/RightPanelSettings"]
 custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
 mouse_filter = 2
 border_color = Color(0.273389, 0.584141, 0.66192, 1)
 border_width = 16.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/DiffuseLightPanel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/DiffuseLightEntry"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -164,12 +368,12 @@ grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 0
 
-[node name="DiffuseLightContainer" type="VBoxContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/DiffuseLightPanel/ScrollContainer"]
+[node name="DiffuseLightContainer" type="VBoxContainer" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/DiffuseLightEntry/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="Label" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/DiffuseLightPanel"]
+[node name="DiffuseLabel" type="Label" parent="UI/RightPanel/ScrollContainer/RightPanelSettings/DiffuseLightEntry"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -210,41 +414,22 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="ScrollContainer2" type="ScrollContainer" parent="UI/RightPanel"]
+[node name="CameraInfoLabel" type="Label" parent="UI"]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.5
-grow_horizontal = 2
-horizontal_scroll_mode = 0
-metadata/_edit_use_anchors_ = true
-
-[node name="ScrollContainer" type="VBoxContainer" parent="UI/RightPanel/ScrollContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ScrollContainer3" type="ScrollContainer" parent="UI/RightPanel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.512346
-anchor_right = 1.0
-anchor_bottom = 0.842593
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 0
-metadata/_edit_use_anchors_ = true
-
-[node name="ScrollContainer" type="VBoxContainer" parent="UI/RightPanel/ScrollContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_cyq0g")
 
 [node name="LevelRoot" parent="." instance=ExtResource("2_84d1u")]
 
-[node name="CameraControls" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
+[node name="CameraControls" type="Node3D" parent="." node_paths=PackedStringArray("camera") groups=["EditCam"]]
 script = ExtResource("3_2uaqy")
 camera = NodePath("MainCamera")
+speed = 100.0
 
 [node name="MainCamera" type="Camera3D" parent="CameraControls"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
@@ -253,7 +438,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
 [node name="OpenModel" type="FileDialog" parent="Windows"]
 title = "Open a File"
-size = Vector2i(322, 180)
+size = Vector2i(348, 180)
 ok_button_text = "Open"
 file_mode = 0
 access = 2
@@ -263,7 +448,7 @@ use_native_dialog = true
 [node name="OpenTexture" type="FileDialog" parent="Windows"]
 auto_translate_mode = 1
 title = "Open a File"
-size = Vector2i(322, 180)
+size = Vector2i(348, 180)
 ok_button_text = "Open"
 file_mode = 0
 access = 2
@@ -278,17 +463,37 @@ force_native = true
 dialog_text = "Override model ''?"
 
 [node name="ModelSelector" type="Window" parent="Windows"]
+oversampling_override = 1.0
 title = "Select Model"
 initial_position = 1
 size = Vector2i(672, 384)
+visible = false
 wrap_controls = true
 transient = true
 min_size = Vector2i(672, 192)
 
-[node name="ButtonChoiceWindow" parent="Windows/ModelSelector" instance=ExtResource("5_upakm")]
+[node name="ModelChoiceWindow" parent="Windows/ModelSelector" instance=ExtResource("5_upakm")]
 
+[node name="TextureSelector" type="Window" parent="Windows"]
+oversampling_override = 1.0
+title = "Select Texture"
+initial_position = 1
+size = Vector2i(672, 384)
+visible = false
+wrap_controls = true
+transient = true
+min_size = Vector2i(672, 192)
+
+[node name="TextureChoiceWindow" parent="Windows/TextureSelector" instance=ExtResource("5_upakm")]
+
+[connection signal="pressed" from="UI/RightPanel/ScrollContainer/RightPanelSettings/SpawnPlatform" to="." method="spawn_platform_pressed"]
+[connection signal="pressed" from="UI/RightPanel/ScrollContainer/RightPanelSettings/SpawnLandActor" to="." method="spawn_land_actor_pressed"]
+[connection signal="toggled" from="UI/RightPanel/ScrollContainer/RightPanelSettings/SkyboxToggle/SkyboxLabel" to="." method="toggle_backdrop_enabled"]
+[connection signal="pressed" from="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/SkyboxButtonRatio/SkyboxButton" to="Windows/TextureSelector" method="show"]
+[connection signal="toggled" from="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/Flip/FlipXRatio/FlipXCheckbox" to="." method="skybox_flip_x"]
+[connection signal="toggled" from="UI/RightPanel/ScrollContainer/RightPanelSettings/MarginContainer/FoldableContainer/SkyboxContainer/Flip/FlipYRatio/FlipYCheckbox" to="." method="skybox_flip_y"]
 [connection signal="toggled" from="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry/FogToggle" to="." method="set_fog_enabled"]
-[connection signal="color_changed" from="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry/ColorPickerButton" to="." method="set_fog_color"]
+[connection signal="color_changed" from="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry/ClearColorSelector" to="." method="set_fog_color"]
 [connection signal="value_changed" from="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry/NearSpin" to="." method="set_fog_near"]
 [connection signal="value_changed" from="UI/RightPanel/ScrollContainer/RightPanelSettings/FogEntry/DistanceSpin" to="." method="set_fog_distance"]
 [connection signal="color_changed" from="UI/RightPanel/ScrollContainer/RightPanelSettings/AmbientLightEntry/AmbientLightColor" to="." method="set_ambient_light_color"]

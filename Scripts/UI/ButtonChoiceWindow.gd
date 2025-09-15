@@ -16,10 +16,10 @@ func _ready() -> void:
 	window.close_requested.connect(update_selected_option.bind(null, null))
 	window.close_requested.connect(window.hide)
 	window.size_changed.connect(resized)
+	resized()
 
 func resized() -> void:
 	buttonEntries.columns = floori(window.size.x / 256.0)
-	print(buttonEntries.columns)
 
 func searchbox_updated(new_text: String) -> void:
 	for eachButton in buttonEntries.get_children():
@@ -45,10 +45,31 @@ func update_selected_option(newOption, newButton : Button) -> void:
 
 func add_button(buttonName : String, buttonTexture : Texture, choiceOutput) -> void:
 	var newButton : Button = Button.new()
-	newButton.text = buttonName
-	newButton.icon = buttonTexture
-	newButton.pressed.connect(update_selected_option.bind(choiceOutput, newButton))
 	newButton.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	newButton.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
 	newButton.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	newButton.expand_icon = true
+	newButton.custom_minimum_size = Vector2(0, 96)
 	buttonEntries.add_child(newButton)
+	set_button_info(newButton, buttonName, buttonTexture, choiceOutput)
+
+func set_button_info(inButton : Button, buttonName : String, buttonTexture : Texture, choiceOutput):
+	#Update Visuals
+	inButton.text = buttonName
+	inButton.icon = buttonTexture
+	
+	#Disconnect signals that existed
+	var connections = inButton.pressed.get_connections()
+	for eachConn in connections:
+		inButton.pressed.disconnect(eachConn["callable"])
+	
+	#Create the new signal
+	inButton.pressed.connect(update_selected_option.bind(choiceOutput, inButton))
+
+func update_button(buttonName : String, buttonTexture : Texture, choiceOutput) -> void:
+	for eachButton : Button in buttonEntries.get_children():
+		if eachButton.text == buttonName:
+			#Change the signal info
+			set_button_info(eachButton, buttonName, buttonTexture, choiceOutput)
+			return
+	push_error("No button found!")
